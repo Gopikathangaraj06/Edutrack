@@ -1,0 +1,91 @@
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { BookOpen } from 'lucide-react';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to login');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex justify-center flex-col items-center">
+          <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white mb-4">
+            <BookOpen size={24} />
+          </div>
+          <h2 className="mt-2 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
+            Sign in to Edutrack
+          </h2>
+          <p className="mt-2 text-center text-sm text-slate-600">
+            Or{' '}
+            <Link to="/register" className="font-medium text-primary hover:text-primary-dark">
+              create a new account
+            </Link>
+          </p>
+        </div>
+
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white py-8 px-4 shadow-sm sm:rounded-2xl sm:px-10 border border-slate-100">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-50 text-red-500 text-sm p-3 rounded-lg border border-red-100">
+                  {error}
+                </div>
+              )}
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700">Email address</label>
+                <div className="mt-1">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-field"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700">Password</label>
+                <div className="mt-1">
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-field"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <button type="submit" className="w-full btn-primary py-2.5">
+                  Sign in
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
