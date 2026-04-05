@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import logo from '../assets/logo.png';
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -32,8 +33,16 @@ const Layout = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex">
         <div className="p-6 flex items-center space-x-3">
-          <img src="/src/assets/logo.png" alt="Edutrack Logo" className="h-8 w-auto object-contain rounded-md" />
-          <span className="text-xl font-bold text-slate-800 tracking-tight"></span>
+          <img 
+            src={logo} 
+            alt="Edutrack Logo" 
+            className="h-10 w-auto object-contain" 
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'block';
+            }}
+          />
+          <span className="hidden text-xl font-bold text-slate-800 tracking-tight">Edutrack</span>
         </div>
         
         <nav className="flex-1 px-4 py-4 space-y-1">
@@ -70,9 +79,12 @@ const Layout = () => {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Topbar for mobile - optional expansion */}
         <header className="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center hidden md:flex">
-          <h1 className="text-xl font-semibold text-slate-800">
-            Welcome back, {user?.name.split(' ')[0]} 👋
-          </h1>
+          <div className="flex items-center space-x-3">
+            <img src={logo} alt="Edutrack Logo" className="h-8 w-auto object-contain" onError={(e) => e.target.style.display='none'} />
+            <h1 className="text-xl font-semibold text-slate-800">
+              Welcome back, {user?.name.split(' ')[0]} 👋
+            </h1>
+          </div>
           <div className="flex items-center space-x-4">
              <div className="flex flex-col items-end">
                <span className="text-sm font-medium text-slate-700">Level {user?.level}</span>

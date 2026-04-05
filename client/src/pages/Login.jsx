@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { BookOpen } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -24,8 +24,17 @@ const Login = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center flex-col items-center">
-          <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-white mb-4">
-            <BookOpen size={24} />
+          <img 
+            src={logo} 
+            alt="Edutrack Logo" 
+            className="h-12 mx-auto mb-4 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <div className="hidden w-auto px-4 h-12 rounded-xl bg-primary items-center justify-center text-white mb-4">
+            <span className="font-bold text-xl tracking-tight">Edutrack</span>
           </div>
           <h2 className="mt-2 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
             Sign in to Edutrack
