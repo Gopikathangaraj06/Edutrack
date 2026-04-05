@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { BookOpen, TrendingUp, Flame, Target, CheckCircle2, Circle, Activity } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { BookOpen, TrendingUp, Flame, Target, CheckCircle2, Circle } from 'lucide-react';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -31,18 +30,6 @@ const Dashboard = () => {
     }
   };
 
-  const generateDemo = async () => {
-    try {
-      const toastId = toast.loading('Generating demo data...');
-      const res = await api.post('/progress/demo');
-      const { userXP, userLevel, userStreak } = res.data;
-      updateUserStats(userXP, userLevel, userStreak);
-      await fetchDashboardData();
-      toast.success('Demo data injected successfully!', { id: toastId });
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to generate demo data');
-    }
-  };
 
   const addTask = async (e) => {
     e.preventDefault();
@@ -77,11 +64,7 @@ const Dashboard = () => {
           <div>
             <h2 className="text-2xl font-bold text-slate-800">Keep it up, {user?.name.split(' ')[0]}!</h2>
             <p className="text-slate-600 mt-1">You are doing great. Track your progress to level up.</p>
-            {(!analytics?.subjects || analytics.subjects.length === 0 || (!analytics.chartData || analytics.chartData.length === 0)) && (
-               <button onClick={generateDemo} className="mt-3 text-sm px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition-colors flex items-center gap-2">
-                 <Activity size={16} /> Generate Demo Data
-               </button>
-            )}
+
           </div>
           <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4 w-full md:w-auto">
             <div className="w-14 h-14 rounded-full bg-primary-light flex items-center justify-center border-4 border-white shadow-sm">
