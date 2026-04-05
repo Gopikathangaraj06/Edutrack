@@ -16,18 +16,30 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
-    if (res.data) {
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setUser(res.data);
+    try {
+      const res = await api.post('/auth/login', { email, password });
+      if (res.data) {
+        localStorage.setItem('user', JSON.stringify(res.data));
+        setUser(res.data);
+      }
+    } catch(error) {
+      console.log(error.response?.data || error.message);
+      alert("Login failed. Check console.");
+      throw error;
     }
   };
 
   const register = async (name, email, password) => {
-    const res = await api.post('/auth/register', { name, email, password });
-    if (res.data) {
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setUser(res.data);
+    try {
+      const res = await api.post('/auth/register', { name, email, password });
+      if (res.data) {
+        localStorage.setItem('user', JSON.stringify(res.data));
+        setUser(res.data);
+      }
+    } catch(error) {
+      console.log(error.response?.data || error.message);
+      alert("Registration failed. Check console.");
+      throw error;
     }
   };
 

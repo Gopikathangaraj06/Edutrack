@@ -33,6 +33,7 @@ const registerUser = async (req, res) => {
       await Subject.insertMany(subjectDocs);
 
       res.status(201).json({
+        message: "User created",
         _id: user.id,
         name: user.name,
         email: user.email,
